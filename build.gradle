@@ -43,10 +43,8 @@ if (file(antBuildFile).exists()){
 
 }else{
 
-    //TODO initialize the intellij-community sub module
-    println "Switching to the TAG webstorm/140.2574"
-    //TODO checkout the tag we use to build Adaptive's ides
-    println "Idea submodule fully loaded"
+    println "Sub module intellij-community  not initialized"
+    throw new GradleException("Submodule intellij-community not initalized, execute the script get-idea.sh before proceeding with the build")
 }
 
 
