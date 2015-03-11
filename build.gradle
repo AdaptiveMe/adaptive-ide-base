@@ -31,7 +31,7 @@ print   "\n\n" +
 
 println "\t###### Base IDE build system ###############\n\n\n"
 if (file(antBuildFile).exists()){
-    println "[$antBuildFile] exists, no need to initialize the intellij-community submodule"
+    println "[$antBuildFile] exists, intellij-community is initialized"
     //Importing Ant Tasks
     ant.importBuild(antBuildFile)
     //redirecting the ant output to the current console.
