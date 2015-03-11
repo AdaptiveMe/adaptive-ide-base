@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/adaptive-ide-base/adaptive-ide-base.iml" filepath="$PROJECT_DIR$/adaptive-ide-base/adaptive-ide-base.iml" />
+      <module fileurl="file://$PROJECT_DIR$/adaptive-ide-base.iml" filepath="$PROJECT_DIR$/adaptive-ide-base.iml" />
+      <module fileurl="file://$PROJECT_DIR$/intellij-community/community-main.iml" filepath="$PROJECT_DIR$/intellij-community/community-main.iml" />
+    </modules>
+  </component>
+</project>
