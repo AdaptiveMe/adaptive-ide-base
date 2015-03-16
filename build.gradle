@@ -1,0 +1,71 @@
+/*
+ * Copyright 2014-2015. Adaptive.me.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+import org.apache.tools.ant.DefaultLogger
+import org.apache.tools.ant.Project
+
+def antBuildFile = "intellij-community/build.xml"
+
+print   "\n\n" +
+        "\t############### Welcome to #################\n" +
+        "\t              _             _   _           \n" +
+        "\t     /\\      | |           | | (_)          \n" +
+        "\t    /  \\   __| | __ _ _ __ | |_ ___   _____ \n" +
+        "\t   / /\\ \\ / _` |/ _` | '_ \\| __| \\ \\ / / _ \\\n" +
+        "\t  / ____ \\ (_| | (_| | |_) | |_| |\\ V /  __/\n" +
+        "\t /_/    \\_\\__,_|\\__,_| .__/ \\__|_| \\_/ \\___|\n" +
+        "\t                     | |                    \n" +
+        "\t                     |_|                    \n"
+
+println "\t###### Base IDE build system ###############\n\n\n"
+if (file(antBuildFile).exists()){
+    println "[$antBuildFile] exists, intellij-community is initialized"
+    //Importing Ant Tasks
+    ant.importBuild(antBuildFile)
+    //redirecting the ant output to the current console.
+    def consoleLogger = new DefaultLogger();
+    consoleLogger.errorPrintStream = System.err;
+    consoleLogger.outputPrintStream = System.out;
+    consoleLogger.messageOutputLevel = Project.MSG_INFO;
+    ant.project.addBuildListener(consoleLogger);
+
+}else{
+
+    println "Sub module intellij-community  not initialized"
+    throw new GradleException("Submodule intellij-community not initalized, execute the script get-idea.sh before proceeding with the build")
+}
+
+
+task copyScripts(type:Copy) {
+    from 'scripts'
+    into 'intellij-community/build/scripts'
+}
+
+task cleanupIdea <<{
+    //TODO actually clean up the plugins and scripts
+    println 'cleaning up the idea plugins that we don\'t use'
+
+}
+
+//make sure the scripts are copied and the idea have been clean up before build
+tasks.findByName("build").mustRunAfter = [cleanupIdea,copyScripts]
+
+task buildIdea(dependsOn:[build,cleanupIdea,copyScripts]) <<{
+
+    println "Creating base ide"
+
+}
+
+defaultTasks 'buildIdea'
