@@ -18,6 +18,7 @@
       <module fileurl="file://$PROJECT_DIR$/intellij-community/plugins/ant/jps-plugin/ant-jps-plugin.iml" filepath="$PROJECT_DIR$/intellij-community/plugins/ant/jps-plugin/ant-jps-plugin.iml" group="plugins" />
       <module fileurl="file://$PROJECT_DIR$/intellij-community/jps/antLayout/antlayout.iml" filepath="$PROJECT_DIR$/intellij-community/jps/antLayout/antlayout.iml" group="jps" />
       <module fileurl="file://$PROJECT_DIR$/intellij-community/plugins/google-app-engine/runtime/appEngine-runtime.iml" filepath="$PROJECT_DIR$/intellij-community/plugins/google-app-engine/runtime/appEngine-runtime.iml" group="plugins/GAE" />
+      <module fileurl="file://$PROJECT_DIR$/base-branding/base-branding.iml" filepath="$PROJECT_DIR$/base-branding/base-branding.iml" />
       <module fileurl="file://$PROJECT_DIR$/intellij-community/platform/boot/boot.iml" filepath="$PROJECT_DIR$/intellij-community/platform/boot/boot.iml" group="platform" />
       <module fileurl="file://$PROJECT_DIR$/intellij-community/platform/bootstrap/bootstrap.iml" filepath="$PROJECT_DIR$/intellij-community/platform/bootstrap/bootstrap.iml" group="platform" />
       <module fileurl="file://$PROJECT_DIR$/intellij-community/build/build.iml" filepath="$PROJECT_DIR$/intellij-community/build/build.iml" />
@@ -35,7 +36,6 @@
       <module fileurl="file://$PROJECT_DIR$/intellij-community/platform/core-impl/core-impl.iml" filepath="$PROJECT_DIR$/intellij-community/platform/core-impl/core-impl.iml" group="platform" />
       <module fileurl="file://$PROJECT_DIR$/intellij-community/plugins/coverage/coverage.iml" filepath="$PROJECT_DIR$/intellij-community/plugins/coverage/coverage.iml" group="plugins/coverage" />
       <module fileurl="file://$PROJECT_DIR$/intellij-community/plugins/coverage-common/coverage-common.iml" filepath="$PROJECT_DIR$/intellij-community/plugins/coverage-common/coverage-common.iml" group="plugins/coverage" />
-      <module fileurl="file://$PROJECT_DIR$/intellij-community/plugins/coverage/covergae_rt/coverage_rt.iml" filepath="$PROJECT_DIR$/intellij-community/plugins/coverage/covergae_rt/coverage_rt.iml" group="plugins/coverage" />
       <module fileurl="file://$PROJECT_DIR$/intellij-community/plugins/cucumber-jvm-formatter/cucumber-jvm-formatter.iml" filepath="$PROJECT_DIR$/intellij-community/plugins/cucumber-jvm-formatter/cucumber-jvm-formatter.iml" group="plugins" />
       <module fileurl="file://$PROJECT_DIR$/intellij-community/build/cucumber-test-runner/cucumber-test-runner.iml" filepath="$PROJECT_DIR$/intellij-community/build/cucumber-test-runner/cucumber-test-runner.iml" group="plugins" />
       <module fileurl="file://$PROJECT_DIR$/intellij-community/plugins/cvs/cvs-core/cvs-core.iml" filepath="$PROJECT_DIR$/intellij-community/plugins/cvs/cvs-core/cvs-core.iml" group="plugins/VCS/cvs" />
@@ -134,7 +134,6 @@
       <module fileurl="file://$PROJECT_DIR$/intellij-community/plugins/maven/jps-plugin/maven-jps-plugin.iml" filepath="$PROJECT_DIR$/intellij-community/plugins/maven/jps-plugin/maven-jps-plugin.iml" group="plugins/maven" />
       <module fileurl="file://$PROJECT_DIR$/intellij-community/plugins/maven/maven-server-api/maven-server-api.iml" filepath="$PROJECT_DIR$/intellij-community/plugins/maven/maven-server-api/maven-server-api.iml" group="plugins/maven" />
       <module fileurl="file://$PROJECT_DIR$/intellij-community/plugins/maven/maven2-server-impl/maven2-server-impl.iml" filepath="$PROJECT_DIR$/intellij-community/plugins/maven/maven2-server-impl/maven2-server-impl.iml" group="plugins/maven" />
-      <module fileurl="file://$PROJECT_DIR$/intellij-community/plugins/maven/maven3-server-impl/maven3-server-impl.iml" filepath="$PROJECT_DIR$/intellij-community/plugins/maven/maven3-server-impl/maven3-server-impl.iml" group="plugins/maven" />
       <module fileurl="file://$PROJECT_DIR$/intellij-community/java/openapi/openapi.iml" filepath="$PROJECT_DIR$/intellij-community/java/openapi/openapi.iml" group="java" />
       <module fileurl="file://$PROJECT_DIR$/intellij-community/platform/platform-api/platform-api.iml" filepath="$PROJECT_DIR$/intellij-community/platform/platform-api/platform-api.iml" group="platform" />
       <module fileurl="file://$PROJECT_DIR$/intellij-community/platform/platform-impl/platform-impl.iml" filepath="$PROJECT_DIR$/intellij-community/platform/platform-impl/platform-impl.iml" group="platform" />
