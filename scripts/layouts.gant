@@ -1,5 +1,5 @@
 /*
- * Copyright 2000-2014 JetBrains s.r.o.
+ * Copyright 2014-2015. Adaptive.me.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@ target('default': "Developers update") {
 }
 
 String appInfoFileName() {
-  return "idea/IdeaApplicationInfo.xml"
+  return "idea/AdaptiveApplicationInfo.xml"
 }
 
 String patchAppDescriptor(String targetDirectory) {
@@ -33,12 +33,12 @@ String patchAppDescriptor(String targetDirectory) {
   ant.delete(dir: patchedDirectory)
 
   layout(patchedDirectory) {
-    module("community-resources") {
+    module("base-branding") {
       include(name: appInfoFileName())
     }
   }
 
-  ant.replace(file: "$patchedDirectory/${appInfoFileName()}", token: "__BUILD_NUMBER__", value: "IC-$snapshot")
+  ant.replace(file: "$patchedDirectory/${appInfoFileName()}", token: "__BUILD_NUMBER__", value: "AD-$snapshot")
   ant.replace(file: "$patchedDirectory/${appInfoFileName()}", token: "__BUILD_DATE__", value: new Date().format("yyyyMMddHHmm"))
 
   return patchedDirectory
@@ -49,41 +49,41 @@ def layoutFull(String home, String targetDirectory, String patchedDescriptorDir 
 
   List<String> jpsCommonModules = ["jps-model-impl", "jps-model-serialization"]
   List<String> openapiModules = [platformApiModules,
-//    "compiler-openapi",
-//    "debugger-openapi",
-//    "dom-openapi",
-//    "execution-openapi",
-//    "java-analysis-api",
-//    "java-indexing-api",
-//    "java-psi-api",
+    "compiler-openapi",
+    "debugger-openapi",
+    "dom-openapi",
+    "execution-openapi",
+    "java-analysis-api",
+    "java-indexing-api",
+    "java-psi-api",
     "jsp-openapi",
     "jsp-base-openapi",
     "openapi",
-//    "remote-servers-java-api",
-//    "testFramework-java",
+    "remote-servers-java-api",
+    "testFramework-java",
   ].flatten()
 
   List<String> implementationModules = [platformImplementationModules,
-//    "compiler-impl",
-//    "debugger-impl",
-//    "dom-impl",
-//    "duplicates-analysis",
-//    "execution-impl",
-//    "external-system-impl",
+    "compiler-impl",
+    "debugger-impl",
+    "dom-impl",
+    "duplicates-analysis",
+    "execution-impl",
+    "external-system-impl",
     "idea-ui",
-//    "java-analysis-impl",
-//    "java-indexing-impl",
-//    "java-impl",
-//    "java-psi-impl",
-//    "java-structure-view",
+    "java-analysis-impl",
+    "java-indexing-impl",
+    "java-impl",
+    "java-psi-impl",
+    "java-structure-view",
     "jsp-spi",
     "manifest",
     "platform-main",
-//    "remote-servers-java-impl",
+    "remote-servers-java-impl",
     "structuralsearch",
     "structuralsearch-java",
-//    "testFramework",
-//    "tests_bootstrap",
+    "testFramework",
+    "tests_bootstrap",
     "typeMigration",
     "ui-designer-core"
   ].flatten()
@@ -152,7 +152,8 @@ def layoutFull(String home, String targetDirectory, String patchedDescriptorDir 
         module("colorSchemes")
         module("resources")
         module("platform-resources")
-        module("community-resources") {
+        module("community-resources")
+        module("base-branding") {
           if (patchedDescriptorDir != null) {
             exclude(name: appInfoFileName())
           }
@@ -212,25 +213,26 @@ def layoutFull(String home, String targetDirectory, String patchedDescriptorDir 
 
     layoutCommunityPlugins(home)
 
-    dir("plugins") {
-      dir("javaFX") {
-        dir("lib") {
-          jar("javaFX.jar") {
-            noResources("javaFX")
-            noResources("javaFX-CE")
-          }
-          resources(["javaFX", "javaFX-CE"])
-          jar("javaFX-jps-plugin.jar") {
-            module("javaFX-jps-plugin")
-          }
-          jar("common-javaFX-plugin.jar") {
-            module("common-javaFX-plugin")
-          }
-        }
-
-        fileset(dir: "${home}/plugins/javaFX/FxBuilderEmbedder/lib", includes: "embedder.jar");
-      }
-    }
+    // javaFX not needed in AS
+    //dir("plugins") {
+    //  dir("javaFX") {
+    //    dir("lib") {
+    //      jar("javaFX.jar") {
+    //        noResources("javaFX")
+    //        noResources("javaFX-CE")
+    //      }
+    //      resources(["javaFX", "javaFX-CE"])
+    //      jar("javaFX-jps-plugin.jar") {
+    //        module("javaFX-jps-plugin")
+    //      }
+    //      jar("common-javaFX-plugin.jar") {
+    //        module("common-javaFX-plugin")
+    //      }
+    //    }
+    //
+    //    fileset(dir: "${home}/plugins/javaFX/FxBuilderEmbedder/lib", includes: "embedder.jar");
+    //  }
+    //}
 
     dir("plugins") {
       dir("IntelliLang") {
@@ -250,6 +252,8 @@ def layoutFull(String home, String targetDirectory, String patchedDescriptorDir 
 
   printUnusedModules(info.usedModules)
 
+  //TODO: check if we need to bundle gradle and m2repository as Google did with Android Studio
+
   //reorder(targetDirectory)
 }
 
@@ -268,18 +272,21 @@ public def layoutCommunityPlugins(String home) {
       layoutPlugin it
     }
 
-    layoutPlugin("ant", "ant", "antIntegration") {
-      jar("ant-jps-plugin.jar") {
-        module("ant-jps-plugin")
-      }
-    }
-    layoutPlugin("uiDesigner", "ui-designer", "uiDesigner") {
-      dir("jps") {
-        jar("ui-designer-jps-plugin.jar") {
-          module("ui-designer-jps-plugin")
-        }
-      }
-    }
+    // ant not needed in AS
+    // layoutPlugin("ant", "ant", "antIntegration") {
+    //   jar("ant-jps-plugin.jar") {
+    //     module("ant-jps-plugin")
+    //   }
+    // }
+
+    // uiDesigner not needed in AS
+    // layoutPlugin("uiDesigner", "ui-designer", "uiDesigner") {
+    //   dir("jps") {
+    //     jar("ui-designer-jps-plugin.jar") {
+    //       module("ui-designer-jps-plugin")
+    //     }
+    //   }
+    // }
 
     pluginDir("properties") {
       dir("lib") {
@@ -396,13 +403,14 @@ public def layoutCommunityPlugins(String home) {
       }
     }
 
-    pluginDir("ByteCodeViewer") {
-      dir("lib") {
-        jar("byteCodeViewer.jar") {
-          noResources("ByteCodeViewer")
-        }
-      }
-    }
+    // ByteCodeViewer not needed in AS
+    // pluginDir("ByteCodeViewer") {
+    //   dir("lib") {
+    //     jar("byteCodeViewer.jar") {
+    //       noResources("ByteCodeViewer")
+    //     }
+    //   }
+    // }
 
     pluginDir("cvsIntegration") {
       dir("lib") {
@@ -432,36 +440,38 @@ public def layoutCommunityPlugins(String home) {
       }
     }
 
-    layoutPlugin("xpath") {
-      dir("rt") {
-        jar("xslt-rt.jar") {module("xslt-rt")}
-      }
-    }
+    // xpath not needed in Adaptive
+    // layoutPlugin("xpath") {
+    //   dir("rt") {
+    //     jar("xslt-rt.jar") {module("xslt-rt")}
+    //   }
+    // }
 
-    layoutPlugin("xslt-debugger") {
-      jar("xslt-debugger-engine.jar") {
-        module("xslt-debugger-engine") {
-          excludes: "lib"
-        }
-      }
-      fileset(dir: "$home/plugins/xslt-debugger/engine/lib") {
-        include(name: "**/rmi-stubs.jar")
-      }
-      dir("rt") {
-        jar("xslt-debugger-engine-impl.jar") {
-          module("xslt-debugger-engine-impl") {
-            exclude(name: "lib")
-            exclude(name: "**/*.jar")
-            exclude(name: "**/*.html")
-          }
-        }
-        fileset(dir: "$home/plugins/xslt-debugger/engine/impl/lib") {
-          include(name: "**/*.jar")
-          exclude(name: "**/rmi-stubs.jar")
-          include(name: "**/*.html")
-        }
-      }
-    }
+    // xslt-debugger not needed in Adaptive
+    // layoutPlugin("xslt-debugger") {
+    //   jar("xslt-debugger-engine.jar") {
+    //     module("xslt-debugger-engine") {
+    //       excludes: "lib"
+    //     }
+    //   }
+    //   fileset(dir: "$home/plugins/xslt-debugger/engine/lib") {
+    //     include(name: "**/rmi-stubs.jar")
+    //   }
+    //   dir("rt") {
+    //     jar("xslt-debugger-engine-impl.jar") {
+    //       module("xslt-debugger-engine-impl") {
+    //         exclude(name: "lib")
+    //         exclude(name: "**/*.jar")
+    //         exclude(name: "**/*.html")
+    //       }
+    //     }
+    //     fileset(dir: "$home/plugins/xslt-debugger/engine/impl/lib") {
+    //       include(name: "**/*.jar")
+    //       exclude(name: "**/rmi-stubs.jar")
+    //       include(name: "**/*.html")
+    //     }
+    //   }
+    // }
 
     pluginDir("Groovy") {
       dir("lib") {
@@ -508,22 +518,25 @@ public def layoutCommunityPlugins(String home) {
       }
     }
 
-    layoutPlugin("devkit") {
-      jar("devkit-jps-plugin.jar") {
-        module("devkit-jps-plugin")
-      }
-      fileset(dir: "${home}/plugins/devkit/lib") {
-        include(name: "**/*.jar")
-      }
-    }
-    layoutPlugin("eclipse") {
-      jar("eclipse-jps-plugin.jar") {
-        module("eclipse-jps-plugin")
-      }
-      jar("common-eclipse-util.jar") {
-        module("common-eclipse-util")
-      }
-    }
+    // devkit not needed in Adaptive
+    // layoutPlugin("devkit") {
+    //   jar("devkit-jps-plugin.jar") {
+    //     module("devkit-jps-plugin")
+    //   }
+    //   fileset(dir: "${home}/plugins/devkit/lib") {
+    //     include(name: "**/*.jar")
+    //   }
+    // }
+
+    // eclipse not needed in Adaptive
+    // layoutPlugin("eclipse") {
+    //   jar("eclipse-jps-plugin.jar") {
+    //     module("eclipse-jps-plugin")
+    //   }
+    //   jar("common-eclipse-util.jar") {
+    //     module("common-eclipse-util")
+    //   }
+    // }
 
     layoutPlugin("terminal") {
       fileset(dir: "$home/plugins/terminal/lib") {

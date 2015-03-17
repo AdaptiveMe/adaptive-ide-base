@@ -47,17 +47,48 @@ if (file(antBuildFile).exists()){
     throw new GradleException("Submodule intellij-community not initalized, execute the script get-idea.sh before proceeding with the build")
 }
 
+task addAdaptiveModules << {
+
+  def modulesFile = 'intellij-community/.idea/modules.xml'
+  def mainModule = 'intellij-community/community-main.iml'
+  def moduleName = 'base-branding'
+  def dot = '.'
+  def modulesFileText = file(modulesFile).getText('UTF-8')
+  if(!modulesFileText.contains(moduleName)){
+    println "$modulesFile does not contain the adaptive modules. They will be added"
+    modulesFileText = modulesFileText.replace('</modules>',"<module fileurl=\"file://\$PROJECT_DIR\$/../$moduleName/$moduleName .iml\" filepath=\"\$PROJECT_DIR\$/../$moduleName/$moduleName .iml\" group=\"plugins\" />\n</modules>")
+    //this is in place because in GSTRING we cannot use $moduleName.iml as it thinks .iml is a property (dumb groovy :P )
+    modulesFileText = modulesFileText.replaceAll(' \\.iml','.iml')
+    file(modulesFile).write(modulesFileText,'UTF-8')
+  }else{
+    println 'UP-TO-DATE' //TODO change it to the gradle outputs.upToDateWhen
+  }
+
+  String mainModuleText = file(mainModule).getText('UTF-8')
+  if(!mainModuleText.contains(moduleName)){
+    println "$mainModule does not contain the adaptive modules. They will be added"
+    mainModuleText = mainModuleText.replace('</component>',"<orderEntry type=\"module\" module-name=\"$moduleName\" />\n</component>")
+    file(mainModule).write(mainModuleText,'UTF-8')
+  }else{
+    println 'UP-TO-DATE' //TODO change it to the gradle outputs.upToDateWhen
+  }
+
+
+
+
+}
 
 task copyScripts(type:Copy) {
     from 'scripts'
     into 'intellij-community/build/scripts'
 }
 
-task cleanupIdea <<{
+task cleanupIdea(dependsOn:addAdaptiveModules) <<{
     //TODO actually clean up the plugins and scripts
     println 'cleaning up the idea plugins that we don\'t use'
 
 }
+
 
 //make sure the scripts are copied and the idea have been clean up before build
 tasks.findByName("build").mustRunAfter = [cleanupIdea,copyScripts]

@@ -1,5 +1,5 @@
 /*
- * Copyright 2000-2015 JetBrains s.r.o.
+ * Copyright 2014-2015. Adaptive.me.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,12 @@ import static org.jetbrains.jps.idea.IdeaProjectLoader.guessHome
 includeTargets << new File("${guessHome(this)}/build/scripts/utils.gant")
 
 requireProperty("out", "$home/out")
+requireProperty("buildNumber", "SNAPSHOT")
+
+// "out" has to be canonical, otherwise the ant build fails
+// with mysterious errors
+out = new File(out).getCanonicalPath()
+setProperty("out", out)
 
 class Paths {
   final sandbox
@@ -68,7 +74,7 @@ target(compile: "Compile project") {
 }
 
 private String appInfoFile() {
-  return "${projectBuilder.moduleOutput(findModule("community-resources"))}/idea/IdeaApplicationInfo.xml"
+  return "${projectBuilder.moduleOutput(findModule("base-branding"))}/idea/AdaptiveApplicationInfo.xml"
 }
 
 target('default': 'The default target') {
@@ -80,11 +86,14 @@ target('default': 'The default target') {
   zipSources(home, paths.artifacts)
 
   indexSearchableOptions()
-
-  layoutAll([buildNumber: "IC-$snapshot",
-             system_selector: "IdeaIC${p("component.version.major")}",
+  layoutAll([buildNumber: "AD-$snapshot",
+             system_selector: "Adaptive",
+             platform_prefix: "Adaptive",
+             icns: "${projectBuilder.moduleOutput(findModule("base-branding"))}/artwork/Icons.icns",
+             ide_jvm_args: "-Didea.platform.prefix=Adaptive",
              tools_jar: true],
             home, null, paths, true)
+
   String macZip = "$paths.artifacts/ideaIC-${snapshot}.mac.zip"
   notifyArtifactBuilt(macZip)
 }
@@ -97,7 +106,7 @@ target('build-dist-jars' : 'Target to build jars from locally compiled classes')
 
   indexSearchableOptions()
 
-  layoutAll([buildNumber: "IC-$snapshot",
+  layoutAll([buildNumber: "AD-$snapshot",
              system_selector: "IdeaIC${p("component.version.major")}",
              tools_jar: true],
              home, null, paths)
@@ -117,6 +126,8 @@ private void indexSearchableOptions() {
 
 def layoutAll(Map args, String home, String out, Paths _paths = null, buildJps = false) {
   Paths paths = _paths != null ? _paths : new Paths(out)
+
+  args.companyName = p("component.company.name")
 
   wireBuildDate(args.buildNumber, appInfoFile())
   ant.echo(message: args.buildNumber, file: "$paths.distAll/build.txt")
@@ -148,20 +159,30 @@ def layoutAll(Map args, String home, String out, Paths _paths = null, buildJps =
   layoutMac(args, home, paths)
   layoutUnix(args, home, paths)
 
-  buildWinZip("$paths.artifacts/idea${args.buildNumber}.win.zip", [paths.distAll, paths.distWin])
+  def winAppRoot = "adaptive"
+  def macAppRoot = "Adaptive.app/Contents"
+  def linTarRoot = "adaptive"
 
-  def macAppRoot = isEap() ?
-                   "IntelliJ IDEA ${p("component.version.major")} CE EAP.app/Contents" :
-                   "IntelliJ IDEA ${p("component.version.major")} CE.app/Contents"
+//  codeWokBuildNumber= p("buildNumber")
+  //def macAppRoot = isEap() ?
+  //                 "IntelliJ IDEA ${p("component.version.major")} CE EAP.app/Contents" :
+  //                 "IntelliJ IDEA ${p("component.version.major")} CE.app/Contents"
 
-  String macZip = "$paths.artifacts/idea${args.buildNumber}.mac.zip"
+  def winZip = "$paths.artifacts/adaptive-base-${args.buildNumber}.win.zip"
+  def macZip = "$paths.artifacts/adaptive-base-${args.buildNumber}.mac.zip"
+  def linTar = "$paths.artifacts/adaptive-base-${args.buildNumber}.tar"
+
+  buildWinZip(winAppRoot, winZip, [paths.distAll, paths.distWin])
+  buildTarGz(linTarRoot, linTar, [paths.distAll, paths.distUnix])
   buildMacZip(macAppRoot, macZip, [paths.distAll], paths.distMac)
-
-  buildTarGz("idea-${args.buildNumber}", "$paths.artifacts/idea${args.buildNumber}.tar", [paths.distAll, paths.distUnix])
 }
 
-private layoutWin(Map args, String home, Paths paths) {
+private layoutWin(Map _args, String home, Paths paths) {
   String target = paths.distWin
+
+  Map args = new HashMap(_args)
+  args.product_uc = "ADAPTIVE"
+  args.vm_options = "Adaptive.exe"
 
   layout(target) {
     dir("bin") {
@@ -169,22 +190,24 @@ private layoutWin(Map args, String home, Paths paths) {
     }
   }
 
-  ant.copy(file: "$home/platform/icons/src/idea_CE.ico", tofile: "$target/bin/idea.ico")
+  ant.copy(file: "$home/../base-branding/src/artwork/Icons.ico", tofile: "$target/bin/idea.ico")
 
-  winScripts(target, home, "idea.bat", args)
-  winVMOptions(target, null, "idea.exe", "idea64.exe")
-  List resourcePaths = ["$home/community-resources/src", "$home/platform/icons/src"]
-  buildWinLauncher(home, "$home/bin/WinLauncher/WinLauncher.exe", "$target/bin/idea.exe", appInfoFile(),
+ winScripts(target, home, "adaptive.bat", args)
+
+  List resourcePaths = ["$home/../base-branding/src"]
+  buildWinLauncher(home, "$home/bin/WinLauncher/WinLauncher.exe", "$target/bin/Adaptive.exe", appInfoFile(),
                    "$home/build/conf/ideaCE-launcher.properties", args.ce_exe_selector, resourcePaths)
-  buildWinLauncher(home, "$home/bin/WinLauncher/WinLauncher64.exe", "$target/bin/idea64.exe", appInfoFile(),
+  buildWinLauncher(home, "$home/bin/WinLauncher/WinLauncher64.exe", "$target/bin/Adaptive64.exe", appInfoFile(),
                    "$home/build/conf/ideaCE64-launcher.properties", args.ce_exe_selector, resourcePaths)
+  winVMOptions(target, args, "Adaptive.exe", "Adaptive64.exe")
 }
 
 private layoutMac(Map _args, String home, Paths paths) {
   String target = paths.distMac
 
   Map args = new HashMap(_args)
-  args.bundleIdentifier = "com.jetbrains.intellij.ce"
+  args.bundleIdentifier = "me.adaptive.base"
+  args.help_id = "AD"
   args.doc_types = """
       <dict>
         <key>CFBundleTypeExtensions</key>
@@ -194,7 +217,7 @@ private layoutMac(Map _args, String home, Paths paths) {
         <key>CFBundleTypeIconFile</key>
         <string>idea.icns</string>
         <key>CFBundleTypeName</key>
-        <string>IntelliJ IDEA Project File</string>
+        <string>Adaptive Project File</string>
         <key>CFBundleTypeRole</key>
         <string>Editor</string>
       </dict>
@@ -202,22 +225,27 @@ private layoutMac(Map _args, String home, Paths paths) {
   args."idea.properties.path" = "${paths.distAll}/bin/idea.properties"
   args.urlSchemes = ["idea"]
   args.mac_no_yjp = true
-  args.executable = "idea"
+  args.executable = "adaptive"
   layoutMacApp(target, home, args)
 }
 
-private layoutUnix(Map args, String home, Paths paths) {
+private layoutUnix(Map _args, String home, Paths paths) {
   String target = paths.distUnix
 
+  Map args = new HashMap(_args)
+  args.product_uc = "ADAPTIVE"
+  args.vm_options = "adaptive"
+  args.script_name = "adaptive.sh"
   layout(target) {
     dir("bin") {
       fileset(dir: "$home/bin/linux")
     }
   }
 
-  ant.copy(file: "$home/platform/icons/src/icon_CE_128.png", tofile: "$target/bin/idea.png")
+  ant.copy(file: "$home/../base-branding/src/artwork/Icon_128.png", tofile: "$target/bin/idea.png")
+  ant.copy(file: "$home/../base-branding/src/artwork/Icons.ico", tofile: "$target/bin/adaptive.ico")
 
-  unixScripts(target, home, "idea.sh", args)
-  unixVMOptions(target, "idea")
+  unixScripts(target, home, args.script_name, args)
+  unixVMOptions(target, "adaptive")
   unixReadme(target, home, args)
 }
