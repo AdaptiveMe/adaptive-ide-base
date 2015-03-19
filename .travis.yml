@@ -21,3 +21,4 @@ deploy:
   - intellij-community/out/artifacts/adaptive-base-AD-140.SNAPSHOT.mac.zip
   on:
     repo: AdaptiveMe/adaptive-ide-base
+    tags: true
