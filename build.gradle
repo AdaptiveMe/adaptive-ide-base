@@ -99,4 +99,8 @@ task buildIdea(dependsOn:[build,cleanupIdea,copyScripts]) <<{
 
 }
 
-defaultTasks 'buildIdea'
+task assemble(dependsOn:buildIdea)<<{
+
+}
+
+defaultTasks 'assemble'
