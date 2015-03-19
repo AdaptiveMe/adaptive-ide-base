@@ -1,0 +1,16 @@
+sudo: false
+language: java
+before_install:
+  echo $TRAVIS_BRANCH $TRAVIS_TAG $TRAVIS_PULL_REQUEST
+jdk:
+  - oraclejdk8
+cache:
+  directories:
+    - $HOME/.gradle/wrapper/dists/gradle-2.3-all/w01pvxy5gty3tegjrai84pm3
+after_success:
+  if [ "$TRAVIS_BRANCH" == "$TRAVIS_TAG" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
+
+    echo "Do something..."
+
+  fi
+  
