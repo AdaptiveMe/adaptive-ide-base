@@ -8,6 +8,9 @@ cache:
   directories:
     - $HOME/.gradle/wrapper/dists/gradle-2.3-all/w01pvxy5gty3tegjrai84pm3
 after_success:
+  
+  ls -lart intellij-community/out/artifacts
+  
   if [ "$TRAVIS_BRANCH" == "$TRAVIS_TAG" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
 
     echo "Do something..."
