@@ -1,0 +1,24 @@
+sudo: false
+language: java
+before_install: echo $TRAVIS_BRANCH $TRAVIS_TAG $TRAVIS_PULL_REQUEST
+jdk:
+- oraclejdk8
+cache:
+  directories:
+  - $HOME/.gradle/wrapper/dists/gradle-2.3-all/w01pvxy5gty3tegjrai84pm3
+after_success: |-
+  ls -lart intellij-community/out/artifacts
+  if [ "$TRAVIS_BRANCH" == "$TRAVIS_TAG" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
+  echo "Do something..."
+  fi
+deploy:
+  provider: releases
+  api_key:
+    secure: PXX3qrRWLYplyPsbPVfWNCmcri8/vqz6qxC8BV4+RWkGK9qcRWpxFzXzvRIqMz01BosPBk/2ahiJUajDVKQUbqRkie82utz/+uxjYnNFdmN8jUslQygMWCiXUs/5fksGzEVrsp7E/N7qyHRXTHrrR4yPW6vkc5SXoigh4xB8Hqg=
+  file: 
+  - intellij-community/out/artifacts/adaptive-base-AD-140.SNAPSHOT.win.zip
+  - intellij-community/out/artifacts/adaptive-base-AD-140.SNAPSHOT.tar.gz
+  - intellij-community/out/artifacts/adaptive-base-AD-140.SNAPSHOT.mac.zip
+  on:
+    repo: AdaptiveMe/adaptive-ide-base
+    tags: true

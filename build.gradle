@@ -103,4 +103,8 @@ task assemble(dependsOn:buildIdea)<<{
 
 }
 
+task check()<<{
+  // make sure environment is sane
+}
+
 defaultTasks 'assemble'

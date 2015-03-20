@@ -1,0 +1,47 @@
+  <!--
+  ~ Copyright 2013 Carlos Lozano Diez
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<component>
+  <version codename="CodeWok" major="0" minor="1" eap="true"/>
+  <company name="Adaptive" url="http://www.adaptive.me"/>
+  <build number="ACW-0.49" date="20140203"/>
+  <install-over minbuild="0.1" maxbuild="999.999999" version="0"/>
+  <logo url="/artwork/Splash.png" textcolor="000000" progressColor="ffa924" progressY="252" progressTailIcon="/artwork/SplashProgress.png"/>
+  <about url="/artwork/About.png" foreground="000000"/>
+  <icon size32="/artwork/Icon.png" size16="/artwork/Icon_Small.png" size32opaque="/artwork/Icon_White.png" size12="/artwork/ToolWindowProject.png"/>
+  <package code="ACW"/>
+  <names product="CodeWok" fullname="Adaptive CodeWok" script="codewok"/> <!-- fullname is used by NPW to show default folder for projects as -->
+
+  <welcome-screen logo-url="/artwork/Welcome.png" caption-url="/artwork/WelcomeCaption.png" slogan-url="/artwork/Slogan.png"/>
+
+  <editor background-url="/artwork/Backdrop.png"/>
+
+  <update-urls check="https://community.adaptiveware.org/codewok/updates.xml" patches="https://community.adaptiveware.org/codewok/"/>
+
+  <help file="ideahelp.jar" root="idea"/>
+  <documentation url="http://dl-sdk.appspot.com/as/documentation"/>
+  <feedback eap-url="https://community.adaptiveware.org/codewok/feedback.html" release-url="https://community.adaptiveware.org/codewok/feedback.html"/>
+  <plugins url="http://plugins.adaptiveware.org"/>
+  <whatsnew url="http://tools.adaptiveware.org/recent"/>
+  <keymap win="http://www.jetbrains.com/idea/docs/IntelliJIDEA_ReferenceCard.pdf" mac="http://www.jetbrains.com/idea/docs/IntelliJIDEA_ReferenceCard_Mac.pdf"/>
+
+  <plugins-page category="VCS Integration" title="Select VCS Integration Plugins"/>
+  <plugins-page title="Select Other Plugins"/>
+
+  <statistics settings="http://dl-sdk.appspot.com/diamond/stats/stat-assistant.xml"
+              service="http://dl-sdk.appspot.com/diamond/stats/index.jsp"
+              service-key="android-studio" />
+
+</component>
