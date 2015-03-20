@@ -20,8 +20,9 @@
   <install-over minbuild="0.1" maxbuild="999.999999" version="0"/>
   <logo url="/artwork/Splash.png" textcolor="000000" progressColor="ffa924" progressY="252" progressTailIcon="/artwork/SplashProgress.png"/>
   <about url="/artwork/About.png" foreground="000000"/>
-  <icon size32="/artwork/Icon.png" size16="/artwork/Icon_Small.png" size32opaque="/artwork/Icon_White.png" size12="/artwork/ToolWindowProject.png"/>
-  <package code="ACW"/>
+  <icon size32="/artwork/Icon.png" size16="/artwork/Icon_Small.png" size32opaque="/artwork/Icon_White.png"
+        size12="/artwork/ToolWindowProject.png" ico="artwork/Icons.ico"/>
+  <package code="CW"/>
   <names product="CodeWok" fullname="Adaptive CodeWok" script="codewok"/> <!-- fullname is used by NPW to show default folder for projects as -->
 
   <welcome-screen logo-url="/artwork/Welcome.png" caption-url="/artwork/WelcomeCaption.png" slogan-url="/artwork/Slogan.png"/>
