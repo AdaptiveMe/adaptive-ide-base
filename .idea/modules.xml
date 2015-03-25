@@ -18,7 +18,6 @@
       <module fileurl="file://$PROJECT_DIR$/intellij-community/plugins/ant/jps-plugin/ant-jps-plugin.iml" filepath="$PROJECT_DIR$/intellij-community/plugins/ant/jps-plugin/ant-jps-plugin.iml" group="plugins" />
       <module fileurl="file://$PROJECT_DIR$/intellij-community/jps/antLayout/antlayout.iml" filepath="$PROJECT_DIR$/intellij-community/jps/antLayout/antlayout.iml" group="jps" />
       <module fileurl="file://$PROJECT_DIR$/intellij-community/plugins/google-app-engine/runtime/appEngine-runtime.iml" filepath="$PROJECT_DIR$/intellij-community/plugins/google-app-engine/runtime/appEngine-runtime.iml" group="plugins/GAE" />
-      <module fileurl="file://$PROJECT_DIR$/assets/assets.iml" filepath="$PROJECT_DIR$/assets/assets.iml" />
       <module fileurl="file://$PROJECT_DIR$/base-branding/base-branding.iml" filepath="$PROJECT_DIR$/base-branding/base-branding.iml" />
       <module fileurl="file://$PROJECT_DIR$/intellij-community/platform/boot/boot.iml" filepath="$PROJECT_DIR$/intellij-community/platform/boot/boot.iml" group="platform" />
       <module fileurl="file://$PROJECT_DIR$/intellij-community/platform/bootstrap/bootstrap.iml" filepath="$PROJECT_DIR$/intellij-community/platform/bootstrap/bootstrap.iml" group="platform" />

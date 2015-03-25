@@ -27,7 +27,7 @@ out = new File(out).getCanonicalPath()
 setProperty("out", out)
 setProperty("product","CodeWok")
 setProperty("productCode","CW")
-setProperty("brandingModule","assets")
+setProperty("brandingModule","base-branding")
 
 class Paths {
   final sandbox
@@ -195,12 +195,12 @@ private layoutWin(Map _args, String home, Paths paths) {
 
   ant.copy(file: "$home/../$brandingModule/src/artwork/Icons.ico", tofile: "$target/bin/idea.ico")
 
- winScripts(target, home, "${product}.bat", args) //
+ winScripts(target, home, "${product.toLowerCase()}.bat", args) //
 
   List resourcePaths = ["$home/../$brandingModule/src"]
-  buildWinLauncher(home, "$home/bin/WinLauncher/WinLauncher.exe", "$target/bin/${product}.exe", appInfoFile(),
+  buildWinLauncher(home, "$home/bin/WinLauncher/WinLauncher.exe", "$target/bin/${product.toLowerCase()}.exe", appInfoFile(),
                    "$home/build/conf/ideaCE-launcher.properties", args.ce_exe_selector, resourcePaths)
-  buildWinLauncher(home, "$home/bin/WinLauncher/WinLauncher64.exe", "$target/bin/${product}64.exe", appInfoFile(),
+  buildWinLauncher(home, "$home/bin/WinLauncher/WinLauncher64.exe", "$target/bin/${product.toLowerCase()}64.exe", appInfoFile(),
                    "$home/build/conf/ideaCE64-launcher.properties", args.ce_exe_selector, resourcePaths)
   winVMOptions(target, args, "${product}.exe", "${product}64.exe")
 }
@@ -238,7 +238,7 @@ private layoutUnix(Map _args, String home, Paths paths) {
   Map args = new HashMap(_args)
   args.product_uc = "${product.toUpperCase()}"
   args.vm_options = "${product}"
-  args.script_name = "${product}.sh"
+  args.script_name = "${product.toLowerCase()}.sh"
   layout(target) {
     dir("bin") {
       fileset(dir: "$home/bin/linux")
@@ -249,6 +249,6 @@ private layoutUnix(Map _args, String home, Paths paths) {
   ant.copy(file: "$home/../$brandingModule/src/artwork/Icons.ico", tofile: "$target/bin/${product.toLowerCase()}.ico")
 
   unixScripts(target, home, args.script_name, args)
-  unixVMOptions(target, "${product}")
+  unixVMOptions(target, "${product.toLowerCase()}")
   unixReadme(target, home, args)
 }

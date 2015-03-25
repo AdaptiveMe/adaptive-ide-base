@@ -51,7 +51,7 @@ task addAdaptiveModules << {
 
   def modulesFile = 'intellij-community/.idea/modules.xml'
   def mainModule = 'intellij-community/community-main.iml'
-  def moduleName = 'assets'
+  def moduleName = 'base-branding'
   def modulesFileText = file(modulesFile).getText('UTF-8')
   if(!modulesFileText.contains("${moduleName}.iml")){
     println "$modulesFile does not contain the adaptive modules. They will be added"

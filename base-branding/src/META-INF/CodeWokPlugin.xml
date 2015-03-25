@@ -3,10 +3,10 @@
   <module value="com.intellij.modules.adaptive.codewok"/>
   <application-components>
     <!--<component>-->
-      <!--<implementation-class>com.android.tools.idea.AndroidInitialConfigurator</implementation-class>-->
+      <!--<implementation-class>me.adaptive.ide.branding.AdaptiveInitialConfigurator</implementation-class>-->
     <!--</component>-->
   </application-components>
   <!--<extensionPoints>-->
-    <!--<extensionPoint name="androidStudioInitializer" interface="java.lang.Runnable"/>-->
+    <!--<extensionPoint name="adaptiveConfigurator" interface="java.lang.Runnable"/>-->
   <!--</extensionPoints>-->
 </idea-plugin>
