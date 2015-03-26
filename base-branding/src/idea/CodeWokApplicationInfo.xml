@@ -18,14 +18,14 @@
   <company name="Adaptive" url="http://www.adaptive.me"/>
   <build number="ACW-0.49" date="20140203"/>
   <install-over minbuild="0.1" maxbuild="999.999999" version="0"/>
-  <logo url="/artwork/Splash.png" textcolor="000000" progressColor="56FF9B" progressY="252" progressTailIcon="/artwork/SplashProgress.png"/>
-  <about url="/artwork/About.png" foreground="000000"/>
-  <icon size32="/artwork/Icon.png" size16="/artwork/Icon_Small.png" size32opaque="/artwork/Icon_White.png"
-        size12="/artwork/ToolWindowProject.png" ico="artwork/Icons.ico"/>
+  <logo url="/artwork/Splash@2x.png" textcolor="000000" progressColor="56FF9B" progressY="252" progressTailIcon="/artwork/SplashProgress@2x.png"/>
+  <about url="/artwork/About@2x.png" foreground="000000"/>
+  <icon size32="/artwork/Icon@2x.png" size16="/artwork/Icon_Small@2x.png" size32opaque="/artwork/Icon_White@2x.png"
+        size12="/artwork/ToolWindowProject@2x.png" ico="artwork/Icons.ico"/>
   <package code="CW"/>
   <names product="CodeWok" fullname="Adaptive CodeWok" script="codewok"/> <!-- fullname is used by NPW to show default folder for projects as -->
 
-  <welcome-screen logo-url="/artwork/Welcome.png" caption-url="/artwork/WelcomeCaption.png" slogan-url="/artwork/Slogan.png"/>
+  <welcome-screen logo-url="/artwork/Welcome@2x.png" caption-url="/artwork/WelcomeCaption@2x.png" slogan-url="/artwork/Slogan@2x.png"/>
 
   <editor background-url="/artwork/Backdrop.png"/>
 
