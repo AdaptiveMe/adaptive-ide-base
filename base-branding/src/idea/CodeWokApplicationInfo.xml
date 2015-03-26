@@ -18,7 +18,7 @@
   <company name="Adaptive" url="http://www.adaptive.me"/>
   <build number="ACW-0.49" date="20140203"/>
   <install-over minbuild="0.1" maxbuild="999.999999" version="0"/>
-  <logo url="/artwork/Splash.png" textcolor="000000" progressColor="ffa924" progressY="252" progressTailIcon="/artwork/SplashProgress.png"/>
+  <logo url="/artwork/Splash.png" textcolor="000000" progressColor="56FF9B" progressY="252" progressTailIcon="/artwork/SplashProgress.png"/>
   <about url="/artwork/About.png" foreground="000000"/>
   <icon size32="/artwork/Icon.png" size16="/artwork/Icon_Small.png" size32opaque="/artwork/Icon_White.png"
         size12="/artwork/ToolWindowProject.png" ico="artwork/Icons.ico"/>
