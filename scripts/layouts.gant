@@ -26,7 +26,7 @@ target('default': "Developers update") {
 }
 
 String appInfoFileName() {
-  return "idea/AdaptiveApplicationInfo.xml"
+  return "idea/${product}ApplicationInfo.xml"
 }
 
 String patchAppDescriptor(String targetDirectory) {
@@ -35,12 +35,12 @@ String patchAppDescriptor(String targetDirectory) {
   ant.delete(dir: patchedDirectory)
 
   layout(patchedDirectory) {
-    module("base-branding") {
+    module(brandingModule) {
       include(name: appInfoFileName())
     }
   }
 
-  ant.replace(file: "$patchedDirectory/${appInfoFileName()}", token: "__BUILD_NUMBER__", value: "AD-$snapshot")
+  ant.replace(file: "$patchedDirectory/${appInfoFileName()}", token: "__BUILD_NUMBER__", value: "$productCode-$snapshot")
   ant.replace(file: "$patchedDirectory/${appInfoFileName()}", token: "__BUILD_DATE__", value: new Date().format("yyyyMMddHHmm"))
 
   return patchedDirectory
@@ -155,7 +155,7 @@ def layoutFull(String home, String targetDirectory, String patchedDescriptorDir 
         module("resources")
         module("platform-resources")
         module("community-resources")
-        module("base-branding") {
+        module(brandingModule) {
           if (patchedDescriptorDir != null) {
             exclude(name: appInfoFileName())
           }

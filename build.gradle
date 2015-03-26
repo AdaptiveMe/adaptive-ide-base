@@ -52,13 +52,10 @@ task addAdaptiveModules << {
   def modulesFile = 'intellij-community/.idea/modules.xml'
   def mainModule = 'intellij-community/community-main.iml'
   def moduleName = 'base-branding'
-  def dot = '.'
   def modulesFileText = file(modulesFile).getText('UTF-8')
-  if(!modulesFileText.contains(moduleName)){
+  if(!modulesFileText.contains("${moduleName}.iml")){
     println "$modulesFile does not contain the adaptive modules. They will be added"
-    modulesFileText = modulesFileText.replace('</modules>',"<module fileurl=\"file://\$PROJECT_DIR\$/../$moduleName/$moduleName .iml\" filepath=\"\$PROJECT_DIR\$/../$moduleName/$moduleName .iml\" group=\"plugins\" />\n</modules>")
-    //this is in place because in GSTRING we cannot use $moduleName.iml as it thinks .iml is a property (dumb groovy :P )
-    modulesFileText = modulesFileText.replaceAll(' \\.iml','.iml')
+    modulesFileText = modulesFileText.replace('</modules>',"<module fileurl=\"file://\$PROJECT_DIR\$/../$moduleName/${moduleName}.iml\" filepath=\"\$PROJECT_DIR\$/../$moduleName/${moduleName}.iml\" group=\"plugins\" />\n</modules>")
     file(modulesFile).write(modulesFileText,'UTF-8')
   }else{
     println 'UP-TO-DATE' //TODO change it to the gradle outputs.upToDateWhen

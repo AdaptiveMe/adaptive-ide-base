@@ -25,6 +25,9 @@ requireProperty("buildNumber", "SNAPSHOT")
 // with mysterious errors
 out = new File(out).getCanonicalPath()
 setProperty("out", out)
+setProperty("product","CodeWok")
+setProperty("productCode","CW")
+setProperty("brandingModule","base-branding")
 
 class Paths {
   final sandbox
@@ -74,7 +77,7 @@ target(compile: "Compile project") {
 }
 
 private String appInfoFile() {
-  return "${projectBuilder.moduleOutput(findModule("base-branding"))}/idea/AdaptiveApplicationInfo.xml"
+  return "${projectBuilder.moduleOutput(findModule(brandingModule))}/idea/${product}ApplicationInfo.xml"
 }
 
 target('default': 'The default target') {
@@ -86,15 +89,15 @@ target('default': 'The default target') {
   zipSources(home, paths.artifacts)
 
   indexSearchableOptions()
-  layoutAll([buildNumber: "AD-$snapshot",
-             system_selector: "Adaptive",
-             platform_prefix: "Adaptive",
-             icns: "${projectBuilder.moduleOutput(findModule("base-branding"))}/artwork/Icons.icns",
-             ide_jvm_args: "-Didea.platform.prefix=Adaptive",
+  layoutAll([buildNumber: "$productCode-$snapshot",
+             system_selector: "Adaptive", 
+             platform_prefix: product,
+             icns: "${projectBuilder.moduleOutput(findModule(brandingModule))}/artwork/Icons.icns",
+             ide_jvm_args: "-Didea.platform.prefix=$product",
              tools_jar: true],
             home, null, paths, true)
 
-  String macZip = "$paths.artifacts/ideaIC-${snapshot}.mac.zip"
+  String macZip = "$paths.artifacts/adaptive-$product-${snapshot}.mac.zip"
   notifyArtifactBuilt(macZip)
 }
 
@@ -159,18 +162,18 @@ def layoutAll(Map args, String home, String out, Paths _paths = null, buildJps =
   layoutMac(args, home, paths)
   layoutUnix(args, home, paths)
 
-  def winAppRoot = "adaptive"
-  def macAppRoot = "Adaptive.app/Contents"
-  def linTarRoot = "adaptive"
+  def winAppRoot = product.toLowerCase()
+  def macAppRoot = "${product}.app/Contents"
+  def linTarRoot = product.toLowerCase()
 
 //  codeWokBuildNumber= p("buildNumber")
   //def macAppRoot = isEap() ?
   //                 "IntelliJ IDEA ${p("component.version.major")} CE EAP.app/Contents" :
   //                 "IntelliJ IDEA ${p("component.version.major")} CE.app/Contents"
 
-  def winZip = "$paths.artifacts/adaptive-base-${args.buildNumber}.win.zip"
-  def macZip = "$paths.artifacts/adaptive-base-${args.buildNumber}.mac.zip"
-  def linTar = "$paths.artifacts/adaptive-base-${args.buildNumber}.tar"
+  def winZip = "$paths.artifacts/adaptive-${product.toLowerCase()}-${args.buildNumber}.win.zip"
+  def macZip = "$paths.artifacts/adaptive-${product.toLowerCase()}-${args.buildNumber}.mac.zip"
+  def linTar = "$paths.artifacts/adaptive-${product.toLowerCase()}-${args.buildNumber}.tar"
 
   buildWinZip(winAppRoot, winZip, [paths.distAll, paths.distWin])
   buildTarGz(linTarRoot, linTar, [paths.distAll, paths.distUnix])
@@ -181,8 +184,8 @@ private layoutWin(Map _args, String home, Paths paths) {
   String target = paths.distWin
 
   Map args = new HashMap(_args)
-  args.product_uc = "ADAPTIVE"
-  args.vm_options = "Adaptive.exe"
+  args.product_uc = product.toUpperCase()
+  args.vm_options = "${product}.exe"
 
   layout(target) {
     dir("bin") {
@@ -190,24 +193,24 @@ private layoutWin(Map _args, String home, Paths paths) {
     }
   }
 
-  ant.copy(file: "$home/../base-branding/src/artwork/Icons.ico", tofile: "$target/bin/idea.ico")
+  ant.copy(file: "$home/../$brandingModule/src/artwork/Icons.ico", tofile: "$target/bin/idea.ico")
 
- winScripts(target, home, "adaptive.bat", args)
+ winScripts(target, home, "${product.toLowerCase()}.bat", args) //
 
-  List resourcePaths = ["$home/../base-branding/src"]
-  buildWinLauncher(home, "$home/bin/WinLauncher/WinLauncher.exe", "$target/bin/Adaptive.exe", appInfoFile(),
+  List resourcePaths = ["$home/../$brandingModule/src"]
+  buildWinLauncher(home, "$home/bin/WinLauncher/WinLauncher.exe", "$target/bin/${product.toLowerCase()}.exe", appInfoFile(),
                    "$home/build/conf/ideaCE-launcher.properties", args.ce_exe_selector, resourcePaths)
-  buildWinLauncher(home, "$home/bin/WinLauncher/WinLauncher64.exe", "$target/bin/Adaptive64.exe", appInfoFile(),
+  buildWinLauncher(home, "$home/bin/WinLauncher/WinLauncher64.exe", "$target/bin/${product.toLowerCase()}64.exe", appInfoFile(),
                    "$home/build/conf/ideaCE64-launcher.properties", args.ce_exe_selector, resourcePaths)
-  winVMOptions(target, args, "Adaptive.exe", "Adaptive64.exe")
+  winVMOptions(target, args, "${product}.exe", "${product}64.exe")
 }
 
 private layoutMac(Map _args, String home, Paths paths) {
   String target = paths.distMac
 
   Map args = new HashMap(_args)
-  args.bundleIdentifier = "me.adaptive.base"
-  args.help_id = "AD"
+  args.bundleIdentifier = "me.adaptive.${product.toLowerCase()}"
+  args.help_id = "$productCode" + ""
   args.doc_types = """
       <dict>
         <key>CFBundleTypeExtensions</key>
@@ -225,7 +228,7 @@ private layoutMac(Map _args, String home, Paths paths) {
   args."idea.properties.path" = "${paths.distAll}/bin/idea.properties"
   args.urlSchemes = ["idea"]
   args.mac_no_yjp = true
-  args.executable = "adaptive"
+  args.executable = "${product.toLowerCase()}"
   layoutMacApp(target, home, args)
 }
 
@@ -233,19 +236,19 @@ private layoutUnix(Map _args, String home, Paths paths) {
   String target = paths.distUnix
 
   Map args = new HashMap(_args)
-  args.product_uc = "ADAPTIVE"
-  args.vm_options = "adaptive"
-  args.script_name = "adaptive.sh"
+  args.product_uc = "${product.toUpperCase()}"
+  args.vm_options = "${product}"
+  args.script_name = "${product.toLowerCase()}.sh"
   layout(target) {
     dir("bin") {
       fileset(dir: "$home/bin/linux")
     }
   }
 
-  ant.copy(file: "$home/../base-branding/src/artwork/Icon_128.png", tofile: "$target/bin/idea.png")
-  ant.copy(file: "$home/../base-branding/src/artwork/Icons.ico", tofile: "$target/bin/adaptive.ico")
+  ant.copy(file: "$home/../$brandingModule/src/artwork/Icon_128.png", tofile: "$target/bin/idea.png")
+  ant.copy(file: "$home/../$brandingModule/src/artwork/Icons.ico", tofile: "$target/bin/${product.toLowerCase()}.ico")
 
   unixScripts(target, home, args.script_name, args)
-  unixVMOptions(target, "adaptive")
+  unixVMOptions(target, "${product.toLowerCase()}")
   unixReadme(target, home, args)
 }
