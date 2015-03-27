@@ -10,7 +10,27 @@
       <headless-implementation-class/>
     </component>
   </application-components>
-  <!--<extensionPoints>-->
-    <!--<extensionPoint name="adaptiveConfigurator" interface="java.lang.Runnable"/>-->
-  <!--</extensionPoints>-->
+
+  <!--
+  This adds extentions to the <extension> tag so they can be used as tags
+  -->
+  <extensionPoints>
+    <extensionPoint name="adaptiveInitializer" interface="java.lang.Runnable"/>
+  </extensionPoints>
+
+  <extensions defaultExtensionNs="com.intellij">
+    <defaultProjectTypeProvider type="Adaptive"/>
+      <adaptiveInitializer id="Startup.AndroidStudioSpecificInitializer" order="first" implementation="me.adaptive.ide.AdaptiveSpecificInitializer" />
+
+
+      <!--<projectViewPane implementation="com.android.tools.idea.navigator.AndroidProjectViewPane"/>-->
+
+      <!--TODO once the home screen is created uncommend this code so it will start to show -->
+      <!--<welcomeScreen implementation="me.adaptive.ide.AdaptiveWelcomeScreenProvider"/>-->
+  </extensions>
+  <actions>
+    <action class="me.adaptive.ide.project.AdaptiveNewProjectAction" id="WelcomeScreen.AdaptiveNewProject" text="Create new Adaptive project" >
+      <add-to-group group-id="WelcomeScreen.QuickStart" anchor="first" ></add-to-group>
+    </action>
+  </actions>
 </idea-plugin>
