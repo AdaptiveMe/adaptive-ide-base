@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/AdaptiveMe/adaptive-ide-base.svg?branch=master)](https://travis-ci.org/AdaptiveMe/adaptive-ide-base)
 [![GitHub tag](https://img.shields.io/github/tag/AdaptiveMe/adaptive-ide-base.svg)](https://github.com/AdaptiveMe/adaptive-ide-base) [![License](https://img.shields.io/badge/license-apache%202-blue.svg)](https://raw.githubusercontent.com/AdaptiveMe/adaptive-arp-api/master/LICENSE) 
-[![Adaptive Nibble](https://img.shields.io/badge/ide-base-brightgreen.svg)](https://github.com/AdaptiveMe/adaptive-ide-base)  [![adaptive.me](https://img.shields.io/badge/adaptive-me-fdcb0e.svg)](http://adaptive.me)
+[![Adaptive Nibble](https://img.shields.io/badge/ide-base-brightgreen.svg)](https://github.com/AdaptiveMe/adaptive-ide-base)  [![adaptive.me](https://img.shields.io/badge/adaptive-me-fdcb0e.svg)](http://adaptive.me) [![Stories in Ready](https://badge.waffle.io/AdaptiveMe/adaptive-ide-base.svg?label=ready&title=Ready)](http://waffle.io/AdaptiveMe/adaptive-ide-base)
 
 # adaptive-ide-base
 Adaptive.me IDE based on Jetbrains IntelliJ IDEA Community
