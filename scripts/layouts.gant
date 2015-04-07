@@ -35,7 +35,7 @@ String patchAppDescriptor(String targetDirectory) {
   ant.delete(dir: patchedDirectory)
 
   layout(patchedDirectory) {
-    module(brandingModule) {
+    module(brandingModuleName) {
       include(name: appInfoFileName())
     }
   }
@@ -155,7 +155,7 @@ def layoutFull(String home, String targetDirectory, String patchedDescriptorDir 
         module("resources")
         module("platform-resources")
         module("community-resources")
-        module(brandingModule) {
+        module(brandingModuleName) {
           if (patchedDescriptorDir != null) {
             exclude(name: appInfoFileName())
           }
