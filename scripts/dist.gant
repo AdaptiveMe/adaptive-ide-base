@@ -18,6 +18,17 @@ import static org.jetbrains.jps.idea.IdeaProjectLoader.guessHome
 
 includeTargets << new File("${guessHome(this)}/build/scripts/utils.gant")
 
+/**
+ * making all props on the ideProperties file available for future use
+ */
+requireProperty("ideProperties","base.properties")
+def props = new Properties()
+new File(ideProperties).withInputStream {
+  stream -> props.load(stream)
+}
+props.keySet().each{
+  requireProperty(it,props[it])
+}
 requireProperty("out", "$home/out")
 requireProperty("buildNumber", "SNAPSHOT")
 
@@ -25,9 +36,6 @@ requireProperty("buildNumber", "SNAPSHOT")
 // with mysterious errors
 out = new File(out).getCanonicalPath()
 setProperty("out", out)
-setProperty("product","CodeWok")
-setProperty("productCode","CW")
-setProperty("brandingModule","base-branding")
 
 class Paths {
   final sandbox
@@ -77,7 +85,7 @@ target(compile: "Compile project") {
 }
 
 private String appInfoFile() {
-  return "${projectBuilder.moduleOutput(findModule(brandingModule))}/idea/${product}ApplicationInfo.xml"
+  return "${projectBuilder.moduleOutput(findModule(brandingModuleName))}/idea/${product}ApplicationInfo.xml"
 }
 
 target('default': 'The default target') {
@@ -92,7 +100,7 @@ target('default': 'The default target') {
   layoutAll([buildNumber: "$productCode-$snapshot",
              system_selector: "Adaptive", 
              platform_prefix: product,
-             icns: "${projectBuilder.moduleOutput(findModule(brandingModule))}/artwork/Icons.icns",
+             icns: "${projectBuilder.moduleOutput(findModule(brandingModuleName))}/artwork/Icons.icns",
              ide_jvm_args: "-Didea.platform.prefix=$product",
              tools_jar: true],
             home, null, paths, true)
@@ -193,11 +201,11 @@ private layoutWin(Map _args, String home, Paths paths) {
     }
   }
 
-  ant.copy(file: "$home/../$brandingModule/src/artwork/Icons.ico", tofile: "$target/bin/idea.ico")
+  ant.copy(file: "$home/../$brandingModulePath/src/artwork/Icons.ico", tofile: "$target/bin/idea.ico")
 
  winScripts(target, home, "${product.toLowerCase()}.bat", args) //
 
-  List resourcePaths = ["$home/../$brandingModule/src"]
+  List resourcePaths = ["$home/../$brandingModulePath/src"]
   buildWinLauncher(home, "$home/bin/WinLauncher/WinLauncher.exe", "$target/bin/${product.toLowerCase()}.exe", appInfoFile(),
                    "$home/build/conf/ideaCE-launcher.properties", args.ce_exe_selector, resourcePaths)
   buildWinLauncher(home, "$home/bin/WinLauncher/WinLauncher64.exe", "$target/bin/${product.toLowerCase()}64.exe", appInfoFile(),
@@ -245,8 +253,8 @@ private layoutUnix(Map _args, String home, Paths paths) {
     }
   }
 
-  ant.copy(file: "$home/../$brandingModule/src/artwork/Icon_128.png", tofile: "$target/bin/idea.png")
-  ant.copy(file: "$home/../$brandingModule/src/artwork/Icons.ico", tofile: "$target/bin/${product.toLowerCase()}.ico")
+  ant.copy(file: "$home/../$brandingModulePath/src/artwork/Icon_128.png", tofile: "$target/bin/idea.png")
+  ant.copy(file: "$home/../$brandingModulePath/src/artwork/Icons.ico", tofile: "$target/bin/${product.toLowerCase()}.ico")
 
   unixScripts(target, home, args.script_name, args)
   unixVMOptions(target, "${product.toLowerCase()}")

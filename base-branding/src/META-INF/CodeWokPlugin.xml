@@ -10,7 +10,11 @@
       <headless-implementation-class/>
     </component>
   </application-components>
-  <!--<extensionPoints>-->
-    <!--<extensionPoint name="adaptiveConfigurator" interface="java.lang.Runnable"/>-->
-  <!--</extensionPoints>-->
+
+  <!--
+  This adds extentions to the <extension> tag so they can be used as tags
+  -->
+  <extensionPoints>
+    <extensionPoint name="adaptiveInitializer" interface="java.lang.Runnable"/>
+  </extensionPoints>
 </idea-plugin>
