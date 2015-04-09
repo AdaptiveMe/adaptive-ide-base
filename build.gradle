@@ -88,7 +88,7 @@ task addAdaptiveModules << {
   //TODO use a list to support several modules to be added
   if(!modulesFileText.contains("${brandingModuleName}.iml")){
     println "$modulesFile does not contain the adaptive modules. They will be added"
-    modulesFileText = modulesFileText.replace('</modules>',"<module fileurl=\"file://${brandingModulePath}/${brandingModuleName}.iml\" filepath=\"${brandingModulePath}/${brandingModuleName}.iml\" group=\"plugins\" />\n</modules>")
+    modulesFileText = modulesFileText.replace('</modules>',"<module fileurl=\"file://\$PROJECT_DIR\$/../${brandingModulePath}/${brandingModuleName}.iml\" filepath=\"\$PROJECT_DIR\$/../${brandingModulePath}/${brandingModuleName}.iml\" group=\"plugins\" />\n</modules>")
     file(modulesFile).write(modulesFileText,'UTF-8')
   }else{
     println 'UP-TO-DATE' //TODO change it to the gradle outputs.upToDateWhen
