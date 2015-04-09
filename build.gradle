@@ -48,6 +48,8 @@ binding.setVariable("prop", {String key, String defaultValue = null ->
 })
 
 prop("basePath",file(".").absolutePath)
+prop("ideProperties","base.properties")//define the default properties in case no one is already set
+
 def antBuildFile = "$basePath/intellij-community/build.xml"
 
 if (file(antBuildFile).exists()){
@@ -83,7 +85,7 @@ task addAdaptiveModules << {
   prop('mainModule', basePath + '/intellij-community/community-main.iml')
   prop('brandingModuleName', 'base-branding') //defaulting if not previously set
 
-  prop('brandingModulePath',"$basePath/$brandingModuleName") //defaulting if not previously set
+  prop('brandingModulePath',"$brandingModuleName") //defaulting if not previously set
   def modulesFileText = file(modulesFile).getText('UTF-8')
   //TODO use a list to support several modules to be added
   if(!modulesFileText.contains("${brandingModuleName}.iml")){

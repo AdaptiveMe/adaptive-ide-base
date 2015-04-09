@@ -19,15 +19,10 @@ package me.adaptive.ide.branding;
 import com.intellij.ide.IdeBundle;
 import com.intellij.ide.ui.LafManager;
 import com.intellij.ide.util.PropertiesComponent;
-import com.intellij.openapi.actionSystem.ActionManager;
-import com.intellij.openapi.actionSystem.AnAction;
-import com.intellij.openapi.actionSystem.Anchor;
-import com.intellij.openapi.actionSystem.Constraints;
 import com.intellij.openapi.extensions.ExtensionPointName;
 import com.intellij.openapi.fileTypes.FileTypeManager;
 import com.intellij.util.messages.MessageBus;
 import com.intellij.util.ui.UIUtil;
-import me.adaptive.ide.project.AdaptiveNewProjectAction;
 import org.jetbrains.annotations.NonNls;
 
 import javax.swing.*;
